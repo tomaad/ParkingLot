@@ -45,7 +45,7 @@ Vehicles with driver age = 18 : []
 9. Type Commands in the terminal to run on Parking Lot
 10. Type ```quit``` to exit the terminal
 
-##Output Messages for edge cases
+## Output Messages for edge cases
 
 Message | Meaning
 ------- | --------
