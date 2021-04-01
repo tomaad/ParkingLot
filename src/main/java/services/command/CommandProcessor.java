@@ -42,18 +42,18 @@ public class CommandProcessor {
         String cmd;
         if (null != fileCommandReader) {
             try {
-                while (null != (cmd = fileCommandReader.read())) {
+                while (null != (cmd = fileCommandReader.read()) && Constants.QUIT.equals(cmd)) {
                     execute(cmd);
                 }
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
+            fileCommandReader.close();
         }
         while(!Constants.QUIT.equals(cmd = commandReader.read())) {
             execute(cmd);
         }
-        fileCommandReader.close();
         commandReader.close();
     }
 
@@ -61,6 +61,9 @@ public class CommandProcessor {
         String[] args = cmd.split(Constants.SPACE);
         String id = args[0];
         Command command = commandParser.getCommandForCommandID(id);
+        if (null == command) {
+            return;
+        }
         if (isParkingLotInitialized && CommandType.Create_parking_lot.getID().equals(id)) {
             throw new IllegalArgumentException("Parking Lot has been created already!");
         }
