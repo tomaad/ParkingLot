@@ -42,7 +42,7 @@ public class CommandProcessor {
         String cmd;
         if (null != fileCommandReader) {
             try {
-                while (null != (cmd = fileCommandReader.read()) && Constants.QUIT.equals(cmd)) {
+                while (null != (cmd = fileCommandReader.read()) && !Constants.QUIT.equals(cmd)) {
                     execute(cmd);
                 }
             }
