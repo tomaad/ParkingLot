@@ -1,6 +1,6 @@
 # ParkingLot
 
-##Sample Input File
+## Sample Input File
 ```
 Create_parking_lot 6
 Park KA-01-HH-1234 driver_age 21
@@ -13,7 +13,7 @@ Park HR-29-TG-3098 driver_age 39
 Vehicle_registration_number_for_driver_of_age 18
 ```
 
-##Sample Output File
+## Sample Output File
 ```
 Created parking of 6 slots
 Car with vehicle registration number "KA-01-HH-1234" has been parked at slot number 1
