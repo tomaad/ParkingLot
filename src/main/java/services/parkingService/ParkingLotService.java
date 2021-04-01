@@ -55,7 +55,7 @@ public class ParkingLotService implements IParkingLotService {
         if (vehicleIdToSlotMap.containsKey(vehicleRegId)) {
             throw new DuplicateRegistrationIDException(String.format("The vehicle with ID '%s' " +
                     "is already parked at Slot with ID '%d'!"+
-                    "Duplicate Registration Id! Call Police!", vehicleRegId, vehicleIdToSlotMap.get(vehicleRegId)));
+                    " Duplicate Registration Id! Call Police!", vehicleRegId, vehicleIdToSlotMap.get(vehicleRegId)));
         }
 
         // If the pool of vacant slots is empty, then it's application logic failure
