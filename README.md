@@ -39,10 +39,7 @@ Vehicles with driver age = 18 : []
 3. git clone https://github.com/tomaad/ParkingLot.git
 4. cd ParkingLot 
 5. mvn clean compile assembly:single
-6. java -jar target/Parking-1.0-SNAPSHOT-jar-with-dependencies.jar "<INPUT_FILE_NAME>"
-```Note: INPUT_FILE_NAME is the path to the text file contaning commands to run. 
-  Assumption: file path doesn't have spaces.
-  If INPUT_FILE_NAME is not passed in the arguments, then start typing the commands directly in the terminal.```
+6. java -jar target/Parking-1.0-SNAPSHOT-jar-with-dependencies.jar "<INPUT_FILE_NAME>". Note: INPUT_FILE_NAME is the path to the text file contaning commands to run. Assumption: file path doesn't have spaces. If INPUT_FILE_NAME is not passed in the arguments, then start typing the commands directly in the terminal.
 7. All the commands in the INPUT_FILE_NAME will be run sequentially. After all the commands run successfully, app will wait for commands in terminal.
 8. Type Commands in the terminal to run on Parking Lot.
 9. Type ```quit``` to exit the terminal
