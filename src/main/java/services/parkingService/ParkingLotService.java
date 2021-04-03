@@ -20,10 +20,10 @@ public class ParkingLotService implements IParkingLotService {
 
     private int maxSlots;
     private int size;
-    Map<String, Integer> vehicleIdToDriverAgeMap;
-    Map<String, Integer> vehicleIdToSlotMap;
-    Map<Integer, String> slotToVehicleIdMap;
-    Queue<Integer> vacantSlotsQueue;
+    private Map<String, Integer> vehicleIdToDriverAgeMap;
+    private Map<String, Integer> vehicleIdToSlotMap;
+    private Map<Integer, String> slotToVehicleIdMap;
+    private Queue<Integer> vacantSlotsQueue;
 
     private ParkingLotService(int maxSlots) {
         this.maxSlots = maxSlots;

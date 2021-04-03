@@ -10,11 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class FileCommandReader implements Closeable {
-    private String fileLocation;
     private BufferedReader bufferedReader;
 
     public FileCommandReader(String fileLocation) throws FileNotFoundException {
-        this.fileLocation = fileLocation;
         this.bufferedReader = new BufferedReader(new FileReader(new File(fileLocation)));
     }
 
