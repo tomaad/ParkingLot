@@ -51,13 +51,16 @@ public class CommandProcessor {
             }
             fileCommandReader.close();
         }
-        while(!Constants.QUIT.equals(cmd = commandReader.read())) {
+        while(null != (cmd = commandReader.read()) && !Constants.QUIT.equals(cmd)) {
             execute(cmd);
         }
         commandReader.close();
     }
 
     private void execute(String cmd) {
+        if (null == cmd) {
+            return;
+        }
         String[] args = cmd.split(Constants.SPACE);
         String id = args[0];
         Command command = commandParser.getCommandForCommandID(id);
