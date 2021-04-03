@@ -40,6 +40,7 @@ Vehicles with driver age = 18 : []
 4. cd ParkingLot 
 5. mvn clean compile assembly:single
 6. java -jar target/Parking-1.0-SNAPSHOT-jar-with-dependencies.jar "<INPUT_FILE_NAME>"
+Note: INPUT_FILE_NAME is the path to the text file contaning commands to run. Assumption: file path doesn't have spaces.
 7. All the commands in the INPUT_FILE_NAME will be run sequentially
 8. After all the commands run successfully, app will wait for commands in terminal
 9. Type Commands in the terminal to run on Parking Lot
