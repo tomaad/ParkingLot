@@ -86,7 +86,7 @@ public class CommandParser {
     }
 
     public CommandParser() {
-        this.commandMap = new HashMap<>();
+        commandMap = new HashMap<>();
         init();
     }
 
