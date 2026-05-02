@@ -1,0 +1,43 @@
+package com.parkinglot.domain.policy;
+
+import com.parkinglot.domain.model.ParkingLevel;
+import com.parkinglot.domain.model.ParkingSlot;
+import com.parkinglot.domain.model.VehicleType;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Allocates the lowest-numbered compatible slot on the lowest floor.
+ */
+public final class NearestSlotStrategy implements SlotAllocationStrategy {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Optional<ParkingSlot> allocate(final List<ParkingLevel> levels, final VehicleType vehicleType) {
+        Objects.requireNonNull(levels, "levels must not be null");
+        Objects.requireNonNull(vehicleType, "vehicleType must not be null");
+
+        return levels.stream()
+                .sorted(Comparator.comparingInt(ParkingLevel::getFloorNumber))
+                .map(level -> level.getAvailableSlots().stream()
+                        .filter(slot -> slot.getSlotType().supports(vehicleType))
+                        .sorted(Comparator.comparingInt(slot -> extractNumericOrder(slot.getSlotNumber()))
+                                .thenComparing(ParkingSlot::getSlotNumber))
+                        .findFirst())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+    }
+
+    private int extractNumericOrder(final String slotNumber) {
+        final String digits = slotNumber.replaceAll("\\D", "");
+        if (digits.isEmpty()) {
+            return Integer.MAX_VALUE;
+        }
+        return Integer.parseInt(digits);
+    }
+}
