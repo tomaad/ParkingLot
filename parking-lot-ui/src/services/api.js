@@ -253,10 +253,11 @@ export const getApiErrorMessage = (error, fallback = 'Something went wrong. Plea
   return fallback
 }
 
-export const parkVehicle = async (licensePlate, vehicleType) => {
+export const parkVehicle = async (licensePlate, vehicleType, driverAge) => {
   const response = await apiClient.post('/park', {
     licensePlate: licensePlate.trim().toUpperCase(),
     vehicleType,
+    driverAge: Number(driverAge),
   })
 
   return response.data

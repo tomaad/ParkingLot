@@ -34,25 +34,27 @@ const getTimestampText = (ticket) => {
 function ParkForm() {
   const [licensePlate, setLicensePlate] = useState('')
   const [vehicleType, setVehicleType] = useState('CAR')
+  const [driverAge, setDriverAge] = useState('')
   const [ticket, setTicket] = useState(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
   const licensePlateError = submitted && !licensePlate.trim()
+  const driverAgeError = submitted && (!driverAge || Number(driverAge) <= 0)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     setSubmitted(true)
 
-    if (!licensePlate.trim()) {
+    if (!licensePlate.trim() || !driverAge || Number(driverAge) <= 0) {
       return
     }
 
     try {
       setLoading(true)
       setError('')
-      const response = await parkVehicle(licensePlate, vehicleType)
+      const response = await parkVehicle(licensePlate, vehicleType, driverAge)
       setTicket(response)
     } catch (submitError) {
       setTicket(null)
@@ -88,6 +90,22 @@ function ParkForm() {
             </div>
 
             <div className="field-group">
+              <label htmlFor="driverAge">Driver age</label>
+              <input
+                id="driverAge"
+                type="number"
+                className={`form-input${driverAgeError ? ' is-invalid' : ''}`}
+                value={driverAge}
+                onChange={(event) => setDriverAge(event.target.value)}
+                placeholder="25"
+                min="1"
+                max="120"
+                autoComplete="off"
+              />
+              {driverAgeError ? <span className="validation-error">Valid driver age is required.</span> : null}
+            </div>
+
+            <div className="field-group">
               <label htmlFor="vehicleType">Vehicle type</label>
               <select
                 id="vehicleType"
@@ -117,6 +135,7 @@ function ParkForm() {
               onClick={() => {
                 setLicensePlate('')
                 setVehicleType('CAR')
+                setDriverAge('')
                 setTicket(null)
                 setError('')
                 setSubmitted(false)
