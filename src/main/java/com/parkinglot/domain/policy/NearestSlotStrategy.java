@@ -25,10 +25,10 @@ public final class NearestSlotStrategy implements SlotAllocationStrategy {
                 .sorted(Comparator.comparingInt(ParkingLevel::getFloorNumber))
                 .map(level -> level.getAvailableSlots().stream()
                         .filter(slot -> slot.getSlotType().supports(vehicleType))
-                        .sorted(Comparator.comparingInt(slot -> extractNumericOrder(slot.getSlotNumber()))
+                        .sorted(Comparator.comparingInt((ParkingSlot slot) -> extractNumericOrder(slot.getSlotNumber()))
                                 .thenComparing(ParkingSlot::getSlotNumber))
                         .findFirst())
-                .filter(Optional::isPresent)
+                .filter(optionalSlot -> optionalSlot.isPresent())
                 .map(Optional::get)
                 .findFirst();
     }

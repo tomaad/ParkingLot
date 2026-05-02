@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: parking-lot-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: parking-lot-service
+
+parking-lot:
+  name: "Downtown Parking Plaza"
+  levels: 3
+  slots-per-level: 20
+  allocation-strategy: nearest
+  capacity-alert-threshold: 0.90
+
+logging:
+  level:
+    com.parkinglot: INFO
+    root: WARN

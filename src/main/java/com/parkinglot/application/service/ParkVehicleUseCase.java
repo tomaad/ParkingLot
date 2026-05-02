@@ -17,6 +17,8 @@ import com.parkinglot.domain.model.Vehicle;
 import com.parkinglot.domain.policy.SlotAllocationStrategy;
 import com.parkinglot.domain.repository.ParkingLotRepository;
 import com.parkinglot.domain.repository.ParkingTicketRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -26,6 +28,8 @@ import java.util.UUID;
  * Application service that orchestrates parking a vehicle.
  */
 public final class ParkVehicleUseCase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParkVehicleUseCase.class);
+
     private final ParkingLotRepository parkingLotRepository;
     private final ParkingTicketRepository parkingTicketRepository;
     private final SlotAllocationStrategy allocationStrategy;
@@ -68,6 +72,10 @@ public final class ParkVehicleUseCase {
      */
     public ParkResponse execute(final ParkRequest request) {
         final ParkRequest parkRequest = Objects.requireNonNull(request, "request must not be null");
+        LOGGER.info("Attempting to park vehicle lotId={} licensePlate={} vehicleType={}",
+                lotId,
+                parkRequest.getLicensePlate(),
+                parkRequest.getVehicleType());
         final ParkingLot parkingLot = parkingLotRepository.findById(lotId)
                 .orElseThrow(() -> new IllegalArgumentException("Parking lot not found: " + lotId));
 
@@ -113,6 +121,13 @@ public final class ParkVehicleUseCase {
         final int levelNumber = parkingLot.findLevelById(slot.getLevelId())
                 .map(ParkingLevel::getFloorNumber)
                 .orElse(-1);
+        LOGGER.info("Vehicle parked successfully lotId={} ticketId={} slotId={} levelId={} occupancy={}/{}",
+                lotId,
+                ticket.getTicketId(),
+                slot.getSlotId(),
+                slot.getLevelId(),
+                currentOccupancy,
+                parkingLot.getTotalCapacity());
         return new ParkResponse(ticket.getTicketId().toString(), slot.getSlotNumber(), levelNumber, entryTime);
     }
 }

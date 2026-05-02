@@ -1,5 +1,7 @@
 package com.parkinglot.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.parkinglot.domain.model.VehicleType;
 
 import java.util.Objects;
@@ -19,7 +21,10 @@ public final class ParkRequest {
      * @param vehicleType vehicle type
      * @param driverAge driver age
      */
-    public ParkRequest(final String licensePlate, final VehicleType vehicleType, final int driverAge) {
+    @JsonCreator
+    public ParkRequest(@JsonProperty("licensePlate") final String licensePlate,
+                       @JsonProperty("vehicleType") final VehicleType vehicleType,
+                       @JsonProperty("driverAge") final int driverAge) {
         this.licensePlate = Objects.requireNonNull(licensePlate, "licensePlate must not be null");
         this.vehicleType = Objects.requireNonNull(vehicleType, "vehicleType must not be null");
         this.driverAge = driverAge;

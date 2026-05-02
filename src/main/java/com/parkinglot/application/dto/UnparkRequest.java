@@ -1,5 +1,8 @@
 package com.parkinglot.application.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 /**
@@ -13,7 +16,8 @@ public final class UnparkRequest {
      *
      * @param ticketId ticket identifier
      */
-    public UnparkRequest(final String ticketId) {
+    @JsonCreator
+    public UnparkRequest(@JsonProperty("ticketId") final String ticketId) {
         this.ticketId = Objects.requireNonNull(ticketId, "ticketId must not be null");
     }
 

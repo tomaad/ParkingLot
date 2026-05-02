@@ -1,0 +1,10 @@
+logging:
+  level:
+    com.parkinglot: INFO
+    root: WARN
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics,env

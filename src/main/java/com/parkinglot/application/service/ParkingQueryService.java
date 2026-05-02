@@ -7,6 +7,8 @@ import com.parkinglot.domain.model.ParkingLot;
 import com.parkinglot.domain.model.ParkingTicket;
 import com.parkinglot.domain.repository.ParkingLotRepository;
 import com.parkinglot.domain.repository.ParkingTicketRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,6 +21,8 @@ import java.util.stream.Collectors;
  * Read-only application service for querying parking data.
  */
 public final class ParkingQueryService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParkingQueryService.class);
+
     private final ParkingLotRepository parkingLotRepository;
     private final ParkingTicketRepository parkingTicketRepository;
 
@@ -41,6 +45,7 @@ public final class ParkingQueryService {
      * @return availability response
      */
     public AvailabilityResponse getAvailability(final String lotId) {
+        LOGGER.debug("Fetching availability for lotId={}", lotId);
         final ParkingLot parkingLot = parkingLotRepository.findById(Objects.requireNonNull(lotId, "lotId must not be null"))
                 .orElseThrow(() -> new IllegalArgumentException("Parking lot not found: " + lotId));
         final int totalSlots = parkingLot.getTotalCapacity();
@@ -63,6 +68,7 @@ public final class ParkingQueryService {
      * @return active ticket when present
      */
     public Optional<ParkingTicket> findVehicle(final String licensePlate) {
+        LOGGER.debug("Finding active vehicle licensePlate={}", licensePlate);
         return parkingTicketRepository.findActiveByVehicle(new LicensePlate(licensePlate));
     }
 
@@ -72,6 +78,7 @@ public final class ParkingQueryService {
      * @return active tickets
      */
     public List<ParkingTicket> getActiveTickets() {
+        LOGGER.debug("Fetching active parking tickets");
         return parkingTicketRepository.findAllActive();
     }
 }

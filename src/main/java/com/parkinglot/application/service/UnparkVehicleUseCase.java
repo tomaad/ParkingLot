@@ -9,6 +9,8 @@ import com.parkinglot.domain.model.ParkingSlot;
 import com.parkinglot.domain.model.ParkingTicket;
 import com.parkinglot.domain.repository.ParkingLotRepository;
 import com.parkinglot.domain.repository.ParkingTicketRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -17,6 +19,8 @@ import java.util.Objects;
  * Application service that orchestrates unparking a vehicle.
  */
 public final class UnparkVehicleUseCase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnparkVehicleUseCase.class);
+
     private final ParkingLotRepository parkingLotRepository;
     private final ParkingTicketRepository parkingTicketRepository;
     private final DomainEventPublisher eventPublisher;
@@ -48,6 +52,7 @@ public final class UnparkVehicleUseCase {
      */
     public UnparkResponse execute(final UnparkRequest request) {
         final UnparkRequest unparkRequest = Objects.requireNonNull(request, "request must not be null");
+        LOGGER.info("Attempting to unpark vehicle lotId={} ticketId={}", lotId, unparkRequest.getTicketId());
         final ParkingTicket ticket = parkingTicketRepository.findById(unparkRequest.getTicketId())
                 .orElseThrow(() -> new IllegalArgumentException("Ticket not found: " + unparkRequest.getTicketId()));
         if (!ticket.isActive()) {
@@ -72,6 +77,11 @@ public final class UnparkVehicleUseCase {
                 ticket.getDuration(),
                 exitTime));
 
+        LOGGER.info("Vehicle unparked successfully lotId={} ticketId={} slotId={} durationSeconds={}",
+                lotId,
+                ticket.getTicketId(),
+                ticket.getSlotId(),
+                ticket.getDuration().toSeconds());
         return new UnparkResponse(ticket.getTicketId().toString(), ticket.getDuration(), exitTime);
     }
 }
